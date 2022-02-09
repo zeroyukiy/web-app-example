@@ -42,7 +42,7 @@ func (u *UserRepository) GetAll() ([]model.User, error) {
 	// 	}
 	// }
 	// fmt.Println("SELECT" + queryString + "FROM users ORDER BY id DESC LIMIT 10")
-	rows, err := db.Query("SELECT first_name, last_name, description, address FROM users ORDER BY id DESC LIMIT 7")
+	rows, err := db.Query("SELECT id, first_name, last_name, description, address FROM users ORDER BY id DESC LIMIT 7")
 	if err != nil {
 		log.Fatal(err)
 		panic(err.Error())
@@ -52,7 +52,7 @@ func (u *UserRepository) GetAll() ([]model.User, error) {
 
 	for rows.Next() {
 		var data model.User
-		err = rows.Scan(&data.FirstName, &data.LastName, &data.Description, &data.Address)
+		err = rows.Scan(&data.Id, &data.FirstName, &data.LastName, &data.Description, &data.Address)
 		if err != nil {
 			log.Fatal(err)
 		}

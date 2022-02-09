@@ -21,6 +21,21 @@ func (s *UserService) CreateUser(data UserDTO) (model.User, error) {
 	return s.repository.Store(*u)
 }
 
-func (s *UserService) GetAllUsers() ([]model.User, error) {
-	return s.repository.GetAll()
+func (s *UserService) GetAllUsers() ([]UserDTO, error) {
+	rawUsers, err := s.repository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var users []UserDTO
+	for i := 0; i < len(rawUsers); i++ {
+		users = append(users, UserDTO{
+			FirstName:   rawUsers[i].FirstName,
+			LastName:    rawUsers[i].LastName,
+			Description: rawUsers[i].Description,
+			Address:     rawUsers[i].Address,
+		})
+	}
+
+	return users, nil
 }
