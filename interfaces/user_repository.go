@@ -6,4 +6,5 @@ import (
 
 type IUserRepository interface {
 	Store(u model.User) (model.User, error)
+	GetAll() ([]model.User, error)
 }

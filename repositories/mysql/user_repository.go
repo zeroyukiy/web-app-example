@@ -27,3 +27,37 @@ func (u *UserRepository) Store(data model.User) (model.User, error) {
 	fmt.Println(lastId)
 	return data, nil
 }
+
+func (u *UserRepository) GetAll() ([]model.User, error) {
+	db := database.GetConnection()
+	// var queryString string = ""
+	// for i := 0; i < len(params); i++ {
+	// 	switch i {
+	// 	case 0:
+	// 		queryString = queryString + fmt.Sprintf(" %s,", params[i])
+	// 	case len(params) - 1:
+	// 		queryString = queryString + fmt.Sprintf(" %s ", params[i])
+	// 	default:
+	// 		queryString = queryString + fmt.Sprintf(" %s,", params[i])
+	// 	}
+	// }
+	// fmt.Println("SELECT" + queryString + "FROM users ORDER BY id DESC LIMIT 10")
+	rows, err := db.Query("SELECT first_name, last_name, description, address FROM users ORDER BY id DESC LIMIT 7")
+	if err != nil {
+		log.Fatal(err)
+		panic(err.Error())
+	}
+
+	var users []model.User
+
+	for rows.Next() {
+		var data model.User
+		err = rows.Scan(&data.FirstName, &data.LastName, &data.Description, &data.Address)
+		if err != nil {
+			log.Fatal(err)
+		}
+		users = append(users, data)
+	}
+
+	return users, nil
+}

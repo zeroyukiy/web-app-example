@@ -9,6 +9,17 @@ import (
 	repository "web-app-example/repositories/mysql"
 )
 
+func ShowAll(c echo.Context) error {
+	repo := &repository.UserRepository{}
+	service := user.NewUserService(repo)
+	result, err := service.GetAllUsers()
+	if err != nil {
+		return c.JSON(400, err)
+	}
+
+	return c.JSON(200, result)
+}
+
 func Create(c echo.Context) error {
 	var dto user.UserDTO
 

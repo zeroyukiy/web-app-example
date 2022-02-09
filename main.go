@@ -30,6 +30,7 @@ func main() {
 	// routes
 	e.GET("/", home)
 	e.GET("/users/new", user.Create)
+	e.GET("/users/all", user.ShowAll)
 
 	e.Logger.Fatal(e.Start(":8000"))
 }
